@@ -1,49 +1,42 @@
 // Manejador de productos
-class productManager {
+class ProductManager {
     constructor() {
-        this.productos = [];
-    }
-
-    getProductos() {
-        return this.productos;
-    }
-
-    agregarProducto(producto) {
-        if (this.productos.length === 0) {
-            producto.id = 1;
-        } else {
-            producto.id = this.productos[this.productos.length - 1].id + 1;
-        }
-
-        this.productos.push(producto);
-    }
-
-    getProductById(id) {
-        for (const producto of this.productos) {
-            if (producto.id === id) {
-                return producto;
-            }
-        }
-        return 'Not found';
+        this.products = [];
     }
 
     getProducts() {
-        return this.productos;
+        return this.products;
     }
+
+    addProduct(product) {
+        if (this.products.length === 0) {
+            product.id = 1;
+        } else {
+            product.id = this.products[this.products.length - 1].id + 1;
+        }
+
+        this.products.push(product);
+    }
+
+    getProductById(id) {
+        const product = this.products.find((product) => product.id === id);
+        return product || 'Not found';
+    }
+
 }
 
-class producto {
+class Product {
     constructor(title, description, price, urlImg, id, stock) {
         if (!title || !description || !price || !id  === undefined) {
             throw Error("Todos los campos del producto son obligatorios");
         }
 
-        this.nombre = title || ' ';
+        this.name = title || ' ';
         this.description = description || ' ';
         this.price = price || 0;
         this.img = urlImg || '/img';
         this.id = id || 0;
-        this.cantidad = stock || getRandom();
+        this.amount = stock || getRandom();
     }
 }
 
@@ -52,35 +45,35 @@ function getRandom() {
 }
 
 // Pruebas
-const manejadorProductos = new productManager();
+const productsManager = new ProductManager();
 
-manejadorProductos.agregarProducto(
-    new producto("Pan", "1 kilo de pan", 1000, "url/img", 5));
+productsManager.addProduct(
+    new Product("Pan", "1 kilo de pan", 1000, "url/img", 5));
 
-manejadorProductos.agregarProducto(
-    new producto("Lechuga", "3 plantas de lechuga", 500, "url/img", 8));
+productsManager.addProduct(
+    new Product("Lechuga", "3 plantas de lechuga", 500, "url/img", 8));
 
-manejadorProductos.agregarProducto(
-    new producto("Tomate", "1 kilo de tomate", 800, "url/img", 3));
+productsManager.addProduct(
+    new Product("Tomate", "1 kilo de tomate", 800, "url/img", 3));
 
-manejadorProductos.agregarProducto(
-    new producto("Caramelos", "Caramelos masticables", 100, "url/img", 10));
+productsManager.addProduct(
+    new Product("Caramelos", "Caramelos masticables", 100, "url/img", 10));
 
-const todosLosProductos = manejadorProductos.getProducts();
-console.log("Todos los productos:", todosLosProductos);
+const allProducts = productsManager.getProducts();
+console.log("Todos los productos:", allProducts);
 
-const productoBuscado = manejadorProductos.getProductById(3);
+const findProduct = productsManager.getProductById(3);
 
-const productoBuscado2 = manejadorProductos.getProductById(5);
+const findProduct2 = productsManager.getProductById(5);
 
-if (productoBuscado !== 'Not found') {
-    console.log("Producto encontrado:", productoBuscado.nombre);
+if (findProduct !== 'Not found') {
+    console.log("Producto encontrado:", findProduct.name);
 } else {
     console.log("Producto no encontrado.");
 }
 
-if (productoBuscado2 !== 'Not found') {
-    console.log("Producto encontrado:", productoBuscado2.nombre);
+if (findProduct2 !== 'Not found') {
+    console.log("Producto encontrado:", findProduct2.name);
 } else {
     console.log("Producto no encontrado.");
 }
